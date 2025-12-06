@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback, type RefCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo, type RefCallback } from 'react';
 
 /**
  * Options for the IntersectionObserver hook.
@@ -64,6 +64,17 @@ export function useIntersectionObserver(
   const observerRef = useRef<IntersectionObserver | null>(null);
   const elementRef = useRef<Element | null>(null);
 
+  // Memoize options to prevent unnecessary observer recreation
+  const memoizedOptions = useMemo(
+    () => ({
+      root: options.root,
+      rootMargin: options.rootMargin,
+      threshold: options.threshold,
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [options.root, options.rootMargin, JSON.stringify(options.threshold)]
+  );
+
   const ref: RefCallback<Element> = useCallback(
     (node: Element | null) => {
       if (observerRef.current) {
@@ -74,12 +85,11 @@ export function useIntersectionObserver(
         elementRef.current = node;
         observerRef.current = new IntersectionObserver(([entry]) => {
           setIsIntersecting(entry.isIntersecting);
-        }, options);
+        }, memoizedOptions);
         observerRef.current.observe(node);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [options.threshold, options.rootMargin]
+    [memoizedOptions]
   );
 
   useEffect(() => {
