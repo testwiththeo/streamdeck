@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback, type ReactNode } from 'react';
+import { useEffect, useCallback, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 import { cn } from '@/lib/utils/cn';
@@ -32,28 +32,7 @@ interface ModalProps {
 }
 
 /**
- * A modal dialog component with backdrop and accessibility features.
- * Supports keyboard navigation and customizable behavior.
- *
- * @example
- * ```tsx
- * function MyComponent() {
- *   const [isOpen, setIsOpen] = useState(false);
- *
- *   return (
- *     <>
- *       <button onClick={() => setIsOpen(true)}>Open Modal</button>
- *       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="Confirm">
- *         <p>Are you sure you want to proceed?</p>
- *         <div className="flex gap-2 mt-4">
- *           <button onClick={() => setIsOpen(false)}>Cancel</button>
- *           <button onClick={handleConfirm}>Confirm</button>
- *         </div>
- *       </Modal>
- *     </>
- *   );
- * }
- * ```
+ * A modal dialog with scale-in animation, backdrop blur, and accessibility features.
  */
 export function Modal({
   isOpen,
@@ -70,6 +49,24 @@ export function Modal({
     if (closeOnBackdropClick) onClose();
   });
 
+  const [isClosing, setIsClosing] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
+
+  // Handle open/close with animation
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+      setIsClosing(false);
+    } else if (shouldRender) {
+      setIsClosing(true);
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+        setIsClosing(false);
+      }, 200); // matches duration-fast
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Close on Escape key
   useKeyPress(
     () => onClose(),
@@ -83,7 +80,6 @@ export function Modal({
     } else {
       document.body.style.overflow = '';
     }
-
     return () => {
       document.body.style.overflow = '';
     };
@@ -100,8 +96,6 @@ export function Modal({
     }
   }, [isOpen, modalRef]);
 
-  if (!isOpen) return null;
-
   const sizeClasses = {
     sm: 'max-w-sm',
     md: 'max-w-md',
@@ -109,6 +103,8 @@ export function Modal({
     xl: 'max-w-xl',
     full: 'max-w-4xl',
   };
+
+  if (!shouldRender) return null;
 
   const modalContent = (
     <div
@@ -118,14 +114,23 @@ export function Modal({
       aria-labelledby={title ? 'modal-title' : undefined}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" aria-hidden="true" />
+      <div
+        className={cn(
+          'absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity',
+          isClosing ? 'opacity-0 duration-fast ease-accelerate' : 'opacity-100 duration-normal ease-decelerate'
+        )}
+        aria-hidden="true"
+      />
 
       {/* Modal content */}
       <div
         ref={modalRef}
         className={cn(
-          'relative w-full rounded-xl bg-zinc-900 p-6 shadow-xl ring-1 ring-zinc-800',
-          'animate-in fade-in-0 zoom-in-95',
+          'relative w-full rounded-xl bg-surface-1 p-6 shadow-modal ring-1 ring-border',
+          isClosing
+            ? 'scale-95 opacity-0 duration-fast ease-accelerate'
+            : 'scale-100 opacity-100 duration-slow ease-decelerate',
+          'transition-all',
           sizeClasses[size],
           className
         )}
@@ -134,14 +139,16 @@ export function Modal({
         {(title || showCloseButton) && (
           <div className="mb-4 flex items-center justify-between">
             {title && (
-              <h2 id="modal-title" className="text-lg font-semibold text-white">
+              <h2 id="modal-title" className="text-lg font-semibold text-text-primary">
                 {title}
               </h2>
             )}
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors"
+                className="rounded-lg p-1 text-text-tertiary transition-colors duration-fast ease-standard
+                           hover:bg-surface-2 hover:text-text-primary
+                           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                 aria-label="Close modal"
               >
                 <svg
@@ -163,12 +170,11 @@ export function Modal({
         )}
 
         {/* Body */}
-        <div className="text-zinc-300">{children}</div>
+        <div className="text-text-secondary">{children}</div>
       </div>
     </div>
   );
 
-  // Use portal to render modal at document root
   if (typeof window === 'undefined') return null;
   return createPortal(modalContent, document.body);
 }
