@@ -36,28 +36,28 @@ describe('Button', () => {
       render(<Button>Primary</Button>);
       
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('bg-red-600');
+      expect(button).toHaveClass('bg-brand');
     });
 
     it('renders secondary variant', () => {
       render(<Button variant="secondary">Secondary</Button>);
       
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('bg-zinc-800');
+      expect(button).toHaveClass('bg-surface-2');
     });
 
     it('renders ghost variant', () => {
       render(<Button variant="ghost">Ghost</Button>);
       
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('text-zinc-300');
+      expect(button).toHaveClass('text-text-secondary');
     });
 
     it('renders danger variant', () => {
       render(<Button variant="danger">Danger</Button>);
       
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('bg-red-700');
+      expect(button).toHaveClass('bg-error');
     });
   });
 

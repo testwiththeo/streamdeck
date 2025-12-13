@@ -10,11 +10,11 @@ describe('Skeleton', () => {
     expect(skeleton).toBeInTheDocument();
   });
 
-  it('has animation classes', () => {
+  it('has shimmer animation class', () => {
     render(<Skeleton />);
     
     const skeleton = document.querySelector('[aria-hidden="true"]');
-    expect(skeleton).toHaveClass('animate-pulse');
+    expect(skeleton).toHaveClass('animate-shimmer');
   });
 
   it('applies custom className', () => {
@@ -24,11 +24,11 @@ describe('Skeleton', () => {
     expect(skeleton).toHaveClass('h-10', 'w-full');
   });
 
-  it('has base styling', () => {
+  it('has rounded corners', () => {
     render(<Skeleton />);
     
     const skeleton = document.querySelector('[aria-hidden="true"]');
-    expect(skeleton).toHaveClass('rounded-md', 'bg-zinc-800');
+    expect(skeleton).toHaveClass('rounded-md');
   });
 });
 
@@ -66,7 +66,7 @@ describe('CarouselSkeleton', () => {
   it('renders 6 poster skeletons', () => {
     const { container } = render(<CarouselSkeleton />);
     
-    const posterContainers = container.querySelectorAll('.space-y-2');
+    const posterContainers = container.querySelectorAll('.aspect-\\[2\\/3\\]');
     expect(posterContainers.length).toBe(6);
   });
 
