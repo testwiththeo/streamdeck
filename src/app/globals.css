@@ -1,45 +1,48 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   StreamDeck Design System
-   Fonts loaded via next/font in layout.tsx for optimal performance.
-   Semantic tokens, easing curves, keyframes, animation utilities below.
+   StreamDeck Design System — v2 "Refined Cinema"
+   Clean, minimalist, sleek. Dark-first with subtle warmth.
+   Fonts loaded via next/font in layout.tsx.
    ========================================================================== */
 
 /* --- Theme Tokens --- */
 @theme {
 
-  /* Brand colors */
+  /* Brand — vibrant coral-red, used sparingly */
   --color-brand: #E50914;
-  --color-brand-hover: #F40612;
-  --color-brand-active: #B20710;
-  --color-brand-muted: #E5091420;
+  --color-brand-hover: #FF1A25;
+  --color-brand-active: #C70812;
+  --color-brand-muted: #E5091418;
 
-  /* Surface colors */
-  --color-surface-0: #09090B;
-  --color-surface-1: #18181B;
-  --color-surface-2: #27272A;
-  --color-surface-3: #3F3F46;
-  --color-surface-glass: #18181BCC;
+  /* Surfaces — warm deep blacks with subtle blue undertone */
+  --color-surface-0: #08080A;
+  --color-surface-1: #111114;
+  --color-surface-2: #19191E;
+  --color-surface-3: #232329;
+  --color-surface-elevated: #151518;
+  --color-surface-glass: rgba(12, 12, 15, 0.78);
 
-  /* Text colors */
-  --color-text-primary: #FAFAFA;
-  --color-text-secondary: #A1A1AA;
-  --color-text-tertiary: #71717A;
+  /* Text — high-contrast hierarchy */
+  --color-text-primary: #F5F5F7;
+  --color-text-secondary: #9D9DA6;
+  --color-text-tertiary: #5E5E6B;
+  --color-text-muted: #3E3E48;
 
   /* Accent colors */
-  --color-accent-gold: #FACC15;
-  --color-success: #22C55E;
-  --color-info: #3B82F6;
-  --color-warning: #F59E0B;
-  --color-error: #EF4444;
+  --color-accent-gold: #F5C518;
+  --color-success: #30D158;
+  --color-info: #64D2FF;
+  --color-warning: #FFD60A;
+  --color-error: #FF453A;
 
-  /* Border colors */
-  --color-border: #27272A;
-  --color-border-hover: #3F3F46;
+  /* Border colors — nearly invisible, elevation does the work */
+  --color-border: #1C1C22;
+  --color-border-subtle: #141418;
+  --color-border-hover: #2C2C35;
 
-  /* Easing curves — natural, physical motion */
-  --ease-standard: cubic-bezier(0.32, 0.72, 0, 1);
+  /* Easing — smooth, physical motion */
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
   --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -47,23 +50,152 @@
 
   /* Duration tokens */
   --duration-instant: 100ms;
-  --duration-fast: 200ms;
-  --duration-normal: 300ms;
-  --duration-slow: 500ms;
-  --duration-cinematic: 800ms;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-cinematic: 700ms;
 
-  /* Shadows — layered depth */
-  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
-  --shadow-card-hover: 0 10px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.3);
-  --shadow-modal: 0 25px 50px -12px rgb(0 0 0 / 0.6);
-  --shadow-glow: 0 0 40px -8px #E50914;
-  --shadow-glass: inset 0 1px 0 0 rgb(255 255 255 / 0.05);
+  /* Shadows — soft, diffused, layered */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-sm: 0 2px 8px -2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 24px -6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 48px -8px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 32px -8px var(--color-brand);
+  --shadow-glass: inset 0 0.5px 0 0 rgba(255, 255, 255, 0.04);
 
   /* Spacing tokens */
-  --spacing-section: 3rem;
+  --spacing-section: 3.5rem;
   --spacing-section-lg: 5rem;
-  --spacing-card: 0.75rem;
-  --spacing-content: 1rem;
+  --spacing-card: 1rem;
+  --spacing-content: 1.25rem;
+}
+
+/* --- Light Theme Override --- */
+:root[data-theme='light'] {
+  --color-surface-0: #FAFAFA;
+  --color-surface-1: #F4F4F5;
+  --color-surface-2: #E8E8EC;
+  --color-surface-3: #D4D4D8;
+  --color-surface-elevated: #FFFFFF;
+  --color-surface-glass: rgba(255, 255, 255, 0.78);
+  --color-text-primary: #09090B;
+  --color-text-secondary: #52525B;
+  --color-text-tertiary: #71717A;
+  --color-text-muted: #A1A1AA;
+  --color-border: #E4E4E7;
+  --color-border-subtle: #ECECEE;
+  --color-border-hover: #D4D4D8;
+}
+
+/* --- Base Styles --- */
+body {
+  background: var(--color-surface-0);
+  color: var(--color-text-primary);
+}
+
+::selection {
+  background: var(--color-brand);
+  color: white;
+}
+
+/* --- Scrollbar Hiding --- */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* --- Keyframe Animations --- */
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes scale-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.96); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-out-right {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(12px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes heart-pulse {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.2); }
+  50%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+@keyframes slow-zoom {
+  from { transform: scale(1.04); }
+  to   { transform: scale(1); }
+}
+
+@keyframes float-in {
+  from { opacity: 0; transform: translateY(4px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* --- Animation Utility Classes --- */
+.animate-fade-in-up      { animation: fade-in-up var(--duration-normal) var(--ease-standard) both; }
+.animate-fade-in         { animation: fade-in var(--duration-normal) var(--ease-standard) both; }
+.animate-scale-in        { animation: scale-in var(--duration-slow) var(--ease-decelerate) both; }
+.animate-scale-out       { animation: scale-out var(--duration-fast) var(--ease-accelerate) both; }
+.animate-slide-in-right  { animation: slide-in-right var(--duration-normal) var(--ease-standard) both; }
+.animate-slide-out-right { animation: slide-out-right var(--duration-fast) var(--ease-accelerate) both; }
+.animate-float-in        { animation: float-in var(--duration-normal) var(--ease-standard) both; }
+
+.animate-shimmer {
+  background: linear-gradient(90deg, var(--color-surface-2) 25%, var(--color-surface-3) 50%, var(--color-surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+.animate-heart-pulse { animation: heart-pulse 350ms var(--ease-spring); }
+.animate-slow-zoom   { animation: slow-zoom var(--duration-cinematic) var(--ease-gentle) both; }
+
+/* --- Stagger Delays --- */
+.stagger-1  { animation-delay: 40ms; }
+.stagger-2  { animation-delay: 80ms; }
+.stagger-3  { animation-delay: 120ms; }
+.stagger-4  { animation-delay: 160ms; }
+.stagger-5  { animation-delay: 200ms; }
+.stagger-6  { animation-delay: 240ms; }
+.stagger-7  { animation-delay: 280ms; }
+.stagger-8  { animation-delay: 320ms; }
+.stagger-9  { animation-delay: 360ms; }
+.stagger-10 { animation-delay: 400ms; }
+.stagger-11 { animation-delay: 440ms; }
+.stagger-12 { animation-delay: 480ms; }
+
+/* --- Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* --- Light Theme Override --- */
