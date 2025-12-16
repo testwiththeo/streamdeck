@@ -7,7 +7,7 @@ interface SkeletonProps {
 export function Skeleton({ className }: SkeletonProps) {
   return (
     <div
-      className={cn('animate-shimmer rounded-md', className)}
+      className={cn('animate-shimmer rounded-xl', className)}
       aria-hidden="true"
     />
   );
@@ -16,9 +16,9 @@ export function Skeleton({ className }: SkeletonProps) {
 export function PosterSkeleton() {
   return (
     <div className="flex flex-col">
-      <Skeleton className="aspect-[2/3] w-full rounded-lg" />
-      <Skeleton className="mt-2 h-4 w-3/4 rounded" />
-      <Skeleton className="mt-1 h-3 w-1/2 rounded" />
+      <Skeleton className="aspect-[2/3] w-full rounded-xl" />
+      <Skeleton className="mt-2 h-4 w-3/4 rounded-lg" />
+      <Skeleton className="mt-1 h-3 w-1/2 rounded-lg" />
     </div>
   );
 }
