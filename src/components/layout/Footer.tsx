@@ -10,26 +10,24 @@ const FOOTER_GENRES = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-surface-0">
+    <footer className="border-t border-border bg-surface-0 opacity-90">
       <div className="mx-auto max-w-7xl px-4 py-8">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          {/* Brand */}
           <div>
-            <Link href="/" className="text-lg font-bold tracking-tight text-brand">
-              StreamDeck
+            <Link href="/" className="text-lg font-bold tracking-tight text-text-primary">
+              StreamDeck<span className="text-brand">.</span>
             </Link>
-            <p className="mt-1 text-sm text-text-tertiary">
+            <p className="mt-1 text-sm text-text-muted">
               Discover and watch movies, TV shows, and anime.
             </p>
           </div>
 
-          {/* Genre Links */}
           <nav className="flex flex-wrap gap-4 text-sm" aria-label="Browse by genre">
             {FOOTER_GENRES.map(({ slug, label }) => (
               <Link
                 key={slug}
                 href={`/genre/${slug}`}
-                className="text-text-secondary transition-colors duration-fast ease-standard hover:text-text-primary"
+                className="text-text-tertiary transition-colors duration-fast ease-standard hover:text-text-secondary"
               >
                 {label}
               </Link>
@@ -37,8 +35,7 @@ export function Footer() {
           </nav>
         </div>
 
-        {/* Bottom row */}
-        <div className="mt-8 flex flex-col gap-2 border-t border-border pt-6 text-xs text-text-tertiary md:flex-row md:justify-between">
+        <div className="mt-8 flex flex-col gap-2 border-t border-border-subtle pt-6 text-xs text-text-tertiary md:flex-row md:justify-between">
           <p>&copy; {new Date().getFullYear()} StreamDeck. All rights reserved.</p>
           <p>
             This product uses the{' '}
@@ -46,7 +43,7 @@ export function Footer() {
               href="https://www.themoviedb.org/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-text-secondary transition-colors duration-fast ease-standard hover:text-text-primary"
+              className="text-text-tertiary transition-colors duration-fast ease-standard hover:text-text-secondary"
             >
               TMDB
             </a>{' '}
@@ -54,8 +51,7 @@ export function Footer() {
           </p>
         </div>
 
-        {/* Disclaimer */}
-        <p className="mt-4 text-center text-xs text-text-tertiary">
+        <p className="mt-4 text-center text-text-muted">
           We do not host or upload any videos. All content is provided by unaffiliated third parties.
         </p>
       </div>

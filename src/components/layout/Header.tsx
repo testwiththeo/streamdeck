@@ -27,14 +27,10 @@ export function Header() {
 
   const debouncedQuery = useDebounce(searchQuery, 500);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => { setIsScrolled(window.scrollY > 10); };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -45,10 +41,7 @@ export function Header() {
     }
   }, [debouncedQuery, router]);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [pathname]);
+  useEffect(() => { setIsMobileMenuOpen(false); }, [pathname]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -62,22 +55,20 @@ export function Header() {
   return (
     <header
       className={cn(
-        'sticky top-0 z-40 border-b transition-all duration-fast ease-gentle',
+        'sticky top-0 z-40 transition-all duration-fast ease-gentle',
         isScrolled
-          ? 'border-border bg-surface-glass shadow-card backdrop-blur-md'
-          : 'border-transparent bg-surface-0/95 backdrop-blur-sm'
+          ? 'bg-surface-glass backdrop-blur-xl border-b border-border-subtle shadow-sm'
+          : 'bg-transparent border-b border-transparent'
       )}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4">
-        {/* Logo */}
         <Link
           href={ROUTES.HOME}
-          className="flex-none text-xl font-bold tracking-tight text-brand transition-transform duration-fast ease-standard hover:scale-[1.02] active:scale-[0.98]"
+          className="flex-none text-xl font-bold tracking-tight text-text-primary transition-transform duration-fast ease-standard hover:scale-[1.02] active:scale-[0.98]"
         >
-          StreamDeck
+          StreamDeck<span className="text-brand">.</span>
         </Link>
 
-        {/* Desktop nav */}
         <nav className="hidden items-center gap-1 md:flex" aria-label="Main navigation">
           {NAV_LINKS.map(({ href, label }) => {
             const isActive = pathname === href;
@@ -87,9 +78,7 @@ export function Header() {
                 href={href}
                 className={cn(
                   'relative rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-fast ease-standard',
-                  isActive
-                    ? 'text-text-primary'
-                    : 'text-text-secondary hover:bg-surface-2 hover:text-text-primary'
+                  isActive ? 'text-text-primary' : 'text-text-tertiary hover:bg-surface-2/60 hover:text-text-secondary'
                 )}
               >
                 {label}
@@ -101,7 +90,6 @@ export function Header() {
           })}
         </nav>
 
-        {/* Search bar - desktop */}
         <div className="hidden flex-1 md:block">
           <Input
             placeholder="Search movies, TV shows..."
@@ -110,12 +98,7 @@ export function Header() {
             onKeyDown={handleKeyDown}
             icon={
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             }
             className="max-w-md"
@@ -124,46 +107,24 @@ export function Header() {
           />
         </div>
 
-        {/* Right side */}
         <div className="ml-auto flex items-center gap-1">
-          {/* Theme toggle */}
           {mounted && (
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="rounded-lg p-2 text-text-secondary transition-colors duration-fast ease-standard
-                         hover:bg-surface-2 hover:text-text-primary
-                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0"
+              className="rounded-lg p-2 text-text-tertiary transition-colors duration-fast ease-standard hover:bg-surface-2/60 hover:text-text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
               {theme === 'dark' ? (
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
-                </svg>
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
               ) : (
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                  />
-                </svg>
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
               )}
             </button>
           )}
 
-          {/* Mobile menu toggle */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="rounded-lg p-2 text-text-secondary transition-colors duration-fast ease-standard
-                       hover:bg-surface-2 hover:text-text-primary
-                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0
-                       md:hidden"
+            className="rounded-lg p-2 text-text-tertiary transition-colors duration-fast ease-standard hover:bg-surface-2/60 hover:text-text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30 md:hidden"
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileMenuOpen}
           >
@@ -178,14 +139,13 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile search + nav — animated */}
       <div
         className={cn(
-          'overflow-hidden border-border transition-all duration-normal ease-standard md:hidden',
+          'overflow-hidden border-border-subtle transition-all duration-normal ease-standard md:hidden',
           isMobileMenuOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0 border-t-0'
         )}
       >
-        <div className="border-t border-border px-4 py-3">
+        <div className="px-4 py-3">
           <Input
             placeholder="Search movies, TV shows..."
             value={searchQuery}
@@ -193,12 +153,7 @@ export function Header() {
             onKeyDown={handleKeyDown}
             icon={
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             }
             aria-label="Search movies, TV shows, and anime"
@@ -213,9 +168,7 @@ export function Header() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
                     'rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-fast ease-standard',
-                    isActive
-                      ? 'bg-brand-muted text-brand'
-                      : 'text-text-secondary hover:bg-surface-2 hover:text-text-primary',
+                    isActive ? 'bg-brand-muted text-brand' : 'text-text-secondary hover:bg-surface-2/60 hover:text-text-secondary',
                     isMobileMenuOpen && 'animate-fade-in-up',
                     isMobileMenuOpen && `stagger-${i + 1}`
                   )}
