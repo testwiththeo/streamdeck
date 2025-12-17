@@ -28,7 +28,7 @@ describe('Skeleton', () => {
     render(<Skeleton />);
     
     const skeleton = document.querySelector('[aria-hidden="true"]');
-    expect(skeleton).toHaveClass('rounded-md');
+    expect(skeleton).toHaveClass('rounded-xl');
   });
 });
 

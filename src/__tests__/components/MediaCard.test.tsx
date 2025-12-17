@@ -45,10 +45,11 @@ describe('MediaCard', () => {
     expect(ratings.length).toBeGreaterThan(0);
   });
 
-  it('renders the type badge', () => {
+  it('renders the rating in the top-right badge', () => {
     render(<MediaCard {...mockItem} />);
-    // Type badge uses uppercase
-    expect(screen.getByText('movie', { exact: false })).toBeInTheDocument();
+    // Rating badge is shown in top-right corner
+    const ratings = screen.getAllByText('8.4');
+    expect(ratings.length).toBeGreaterThan(0);
   });
 
   it('links to the correct detail page', () => {

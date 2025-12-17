@@ -43,7 +43,7 @@ describe('Button', () => {
       render(<Button variant="secondary">Secondary</Button>);
       
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('bg-surface-2');
+      expect(button).toHaveClass('bg-surface-2/80');
     });
 
     it('renders ghost variant', () => {

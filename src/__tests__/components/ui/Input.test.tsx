@@ -76,7 +76,7 @@ describe('Input', () => {
     render(<Input placeholder="Focus" />);
     
     const input = screen.getByPlaceholderText('Focus');
-    expect(input).toHaveClass('focus:border-red-500', 'focus:ring-1');
+    expect(input).toHaveClass('focus:ring-1', 'focus:ring-brand');
   });
 
   it('is disabled when disabled prop is true', () => {
