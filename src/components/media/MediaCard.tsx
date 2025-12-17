@@ -8,9 +8,7 @@ import type { MediaItem } from '@/lib/types/app.types';
 
 interface MediaCardProps extends MediaItem {
   className?: string;
-  /** Watch progress (0-100). Shows a progress bar when provided. */
   progress?: number;
-  /** Stagger index for entry animation delay */
   staggerIndex?: number;
 }
 
@@ -38,30 +36,28 @@ export function MediaCard({
     <Link
       href={href}
       className={cn(
-        'group relative flex flex-col overflow-hidden rounded-lg',
+        'group relative flex flex-col overflow-hidden rounded-xl',
         'transition-all duration-normal ease-standard',
-        'hover:scale-[1.03] hover:z-10 hover:shadow-card-hover',
-        'active:scale-[0.98] active:duration-instant',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0',
+        'hover:scale-[1.02] hover:z-10 hover:shadow-md',
+        'active:scale-[0.99] active:duration-instant',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30',
         staggerClass && `animate-fade-in-up ${staggerClass}`,
         className
       )}
       aria-label={`View details for ${title}`}
     >
-      {/* Poster */}
-      <div className="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-surface-2">
+      <div className="relative aspect-[2/3] w-full overflow-hidden rounded-xl bg-surface-2">
         <Image
           src={posterUrl || '/placeholder-poster.jpg'}
           alt={`Poster for ${title}`}
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 200px"
-          className="object-cover transition-transform duration-normal ease-standard group-hover:scale-105"
+          className="object-cover transition-transform duration-normal ease-standard group-hover:scale-103"
           loading="lazy"
         />
 
-        {/* Hover overlay — gradient + info */}
         <div
-          className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/20 to-transparent
+          className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 via-black/20 to-transparent
                      opacity-0 transition-opacity duration-normal ease-standard group-hover:opacity-100"
         >
           <div className="p-3">
@@ -76,28 +72,21 @@ export function MediaCard({
                 </span>
               )}
               {year && (
-                <span className="text-xs text-zinc-300">{formatYear(String(year))}</span>
+                <span className="text-xs text-text-tertiary">{formatYear(String(year))}</span>
               )}
             </div>
           </div>
         </div>
 
-        {/* Rating badge (always visible) */}
         {rating > 0 && (
-          <div className="absolute top-2 right-2 rounded-md bg-black/70 px-1.5 py-0.5 text-xs font-semibold text-accent-gold backdrop-blur-sm">
+          <div className="absolute top-2 right-2 rounded-lg bg-black/50 backdrop-blur-md px-1.5 py-0.5 text-xs font-semibold text-accent-gold">
             {formatRating(rating)}
           </div>
         )}
 
-        {/* Type badge */}
-        <div className="absolute top-2 left-2 rounded-md bg-brand/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-sm">
-          {type}
-        </div>
-
-        {/* Progress bar */}
         {progress != null && progress > 0 && (
           <div
-            className="absolute bottom-0 left-0 right-0 h-1 bg-black/50"
+            className="absolute bottom-0 left-0 right-0 h-0.5 bg-black/30"
             role="progressbar"
             aria-valuenow={progress}
             aria-valuemin={0}
@@ -112,10 +101,9 @@ export function MediaCard({
         )}
       </div>
 
-      {/* Info below poster */}
       <div className="mt-2 space-y-0.5 px-0.5">
-        <h3 className="line-clamp-1 text-sm font-medium text-text-primary">{title}</h3>
-        {year && <p className="text-xs text-text-tertiary">{formatYear(String(year))}</p>}
+        <h3 className="line-clamp-1 text-sm font-medium text-text-secondary">{title}</h3>
+        {year && <p className="text-xs text-text-muted">{formatYear(String(year))}</p>}
       </div>
     </Link>
   );
